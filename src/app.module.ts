@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { RolesModule } from './roles/roles.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { PersonalInformationsModule } from './personal_informations/personal_informations.module';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { UsersModule } from './users/users.module';
       autoLoadEntities:true,
       synchronize:true
     })
-    ,RolesModule, UsersModule],
+    ,RolesModule, UsersModule, PersonalInformationsModule],
   controllers: [],
   providers: [],
 })

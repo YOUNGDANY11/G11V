@@ -1,3 +1,4 @@
+import { PersonalInformation } from "src/personal_informations/entities/personal_information.entity";
 import { Role } from "src/roles/entities/role.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
