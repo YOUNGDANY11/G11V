@@ -8,6 +8,6 @@ export class Role {
     @Column({nullable:false, length:50})
     name:string
 
-    @Column({nullable:false,length:10})
+    @Column({nullable:false,length:10, unique:true})
     code:string
 }
