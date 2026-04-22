@@ -3,6 +3,7 @@ import { RolesModule } from './roles/roles.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { PersonalInformationsModule } from './personal_informations/personal_informations.module';
+import { PlayersModule } from './players/players.module';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { PersonalInformationsModule } from './personal_informations/personal_inf
       autoLoadEntities:true,
       synchronize:true
     })
-    ,RolesModule, UsersModule, PersonalInformationsModule],
+    ,RolesModule, UsersModule, PersonalInformationsModule, PlayersModule],
   controllers: [],
   providers: [],
 })

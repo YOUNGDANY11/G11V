@@ -1,10 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PersonalInformation } from './entities/personal_information.entity';
-import { Not, Repository } from 'typeorm';
+import { In, JoinTable, Not, Repository } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 import { plainToInstance } from 'class-transformer';
 import { CreatePersonalInformationDto, ResponsePersonalInformationDto, UpdatePersonalInformationDto } from './dto';
+import { join } from 'path';
 
 @Injectable()
 export class PersonalInformationsService {
@@ -54,13 +55,14 @@ export class PersonalInformationsService {
 
   async findByUserName(name:string){
     try{
-      const existsUser = await this.usersService.findByName(name)
-      const {id_user} = existsUser.user[0]
-      const personal_information = await this.existsByUserId(id_user)
-      return{
+      const { user } = await this.usersService.findByName(name)
+      const usersId = user.map( u => u.id_user)
+      const personal_information = await this.perInfRepository.find({where:{id_user:In(usersId)}, relations:['user']})
+      if(personal_information.length === 0) throw new NotFoundException({status:'Error',mensaje:'No existe registro de este usuario con informacion personal o usuario inexistente'})
+      return {
         status:'Success',
         mensaje:'Consulta exitosa',
-        personal_information:plainToInstance(ResponsePersonalInformationDto,personal_information,{excludeExtraneousValues:true})
+        personal_information: plainToInstance(ResponsePersonalInformationDto,personal_information, {excludeExtraneousValues:true})
       }
     }catch(error){
       throw error
@@ -69,9 +71,10 @@ export class PersonalInformationsService {
 
   async findByUserLastName(lastname:string){
     try{
-      const existsUser = await this.usersService.findByLastName(lastname)
-      const {id_user} = existsUser.user[0]
-      const personal_information = await this.existsByUserId(id_user)
+      const { user } = await this.usersService.findByLastName(lastname)
+      const usersId = user.map(u => u.id_user)
+      const personal_information = await this.perInfRepository.find({where:{id_user:In(usersId)},relations:['user']})
+      if(personal_information.length === 0 ) throw new NotFoundException({status:'Error',mensaje:'No existe registro de este usuario con informacion personal o usuario inexistente'})
       return{
         status:'Success',
         mensaje:'Consulta exitosa',

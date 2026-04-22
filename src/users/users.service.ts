@@ -61,6 +61,11 @@ export class UsersService {
     }
   }
 
+  async existsByName(name:string){
+    const user = await this.userRepository.findOneBy({name})
+    return user
+  }
+
   async findByLastName(lastname:string){
     try{
       const user = await this.userRepository.find({where:{lastname:ILike(`%${lastname}%`)},relations:['role']})
@@ -73,6 +78,11 @@ export class UsersService {
     }catch(error){
       throw error
     }
+  }
+
+  async existsByLastname(lastname:string){
+    const user = await this.userRepository.findOneBy({lastname})
+    return user
   }
 
   async findByEmail(email:string){
