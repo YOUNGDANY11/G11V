@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { PersonalInformationsModule } from './personal_informations/personal_informations.module';
 import { PlayersModule } from './players/players.module';
+import { DoctorsModule } from './doctors/doctors.module';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { PlayersModule } from './players/players.module';
       autoLoadEntities:true,
       synchronize:true
     })
-    ,RolesModule, UsersModule, PersonalInformationsModule, PlayersModule],
+    ,RolesModule, UsersModule, PersonalInformationsModule, PlayersModule, DoctorsModule],
   controllers: [],
   providers: [],
 })
