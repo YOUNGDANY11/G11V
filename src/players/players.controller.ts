@@ -1,107 +1,61 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query, Put } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { PlayersService } from './players.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { ResponsePlayerDto } from './dto/response/response-player.dto';
+import {
+  ApiGetAllPlayers,
+  ApiGetPlayerById,
+  ApiGetPlayerByName,
+  ApiGetPlayerByLastName,
+  ApiCreatePlayer,
+  ApiUpdatePlayer,
+  ApiDeletePlayer
+} from './decorators/swagger-players.decorator';
 
 @ApiTags('Players')
 @Controller('players')
 export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
-  @ApiOperation({ summary: 'Obtener todos los deportistas' })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Lista de deportistas obtenida exitosamente',
-    type: [ResponsePlayerDto],
-  })
+  @ApiGetAllPlayers()
   @Get()
   findAll(){
     return this.playersService.findAll()
   }
 
-  @ApiOperation({ summary: 'Obtener un jugador por ID' })
-  @ApiParam({ name: 'id', description: 'ID del jugador', example: 1 })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Jugador encontrado exitosamente',
-    type: ResponsePlayerDto,
-  })
-  @ApiResponse({ 
-    status: 404, 
-    description: 'Jugador no encontrado'
-  })
+  @ApiGetPlayerById()
   @Get('id/:id')
   findOne(@Param('id',ParseIntPipe)id_player:number){
     return this.playersService.findOneById(id_player)
   }
 
-  @ApiOperation({ summary: 'Buscar deportistas por nombre de usuario' })
-  @ApiQuery({ name: 'name', description: 'Nombre del usuario', example: 'Juan' })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'deportistas encontrados exitosamente',
-    type: [ResponsePlayerDto],
-  })
+  @ApiGetPlayerByName()
   @Get('user/name')
   findByUserName(@Query('name') name:string){
     return this.playersService.findByUserName(name)
   }
 
-  @ApiOperation({ summary: 'Buscar deportistas por apellido de usuario' })
-  @ApiQuery({ name: 'lastname', description: 'Apellido del usuario', example: 'Pérez' })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'deportistas encontrados exitosamente',
-    type: [ResponsePlayerDto],
-  })
+  @ApiGetPlayerByLastName()
   @Get('user/lastname')
   findByUserLastName(@Query('lastname') lastname:string){
     return this.playersService.findByUserLastName(lastname)
   }
 
-  @ApiOperation({ summary: 'Crear un nuevo jugador' })
-  @ApiResponse({ 
-    status: 201, 
-    description: 'Jugador creado exitosamente',
-    type: ResponsePlayerDto,
-  })
-  @ApiResponse({ 
-    status: 400, 
-    description: 'Datos inválidos'
-  })
+  @ApiCreatePlayer()
   @Post()
   create(@Body() createPlayerDto:CreatePlayerDto){
     return this.playersService.create(createPlayerDto)
   }
 
-  @ApiOperation({ summary: 'Actualizar información de un jugador' })
-  @ApiParam({ name: 'id', description: 'ID del jugador', example: 1 })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Jugador actualizado exitosamente',
-    type: ResponsePlayerDto,
-  })
-  @ApiResponse({ 
-    status: 404, 
-    description: 'Jugador no encontrado'
-  })
+  @ApiUpdatePlayer()
   @Put('id/:id')
   update(@Param('id',ParseIntPipe) id_player:number, @Body() updatePlayerDto:UpdatePlayerDto){
     return this.playersService.update(id_player,updatePlayerDto)
   }
 
-  @ApiOperation({ summary: 'Eliminar un jugador' })
-  @ApiParam({ name: 'id', description: 'ID del jugador', example: 1 })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Jugador eliminado exitosamente'
-  })
-  @ApiResponse({ 
-    status: 404, 
-    description: 'Jugador no encontrado'
-  })
+  @ApiDeletePlayer()
   @Delete('id/:id')
   delete(@Param('id',ParseIntPipe) id_player:number){
     return this.playersService.delete(id_player)
