@@ -47,7 +47,7 @@ export class DoctorsService {
     try{
       const {user} = await this.usersService.findByName(name)
       const usersId = user.map(u => u.id_user)
-      const doctors = await this.doctorRepository.find({where:{id_user:In(usersId)}})
+      const doctors = await this.doctorRepository.find({where:{id_user:In(usersId)},relations:['user']})
       if(doctors.length === 0 ) throw new NotFoundException({status:'Error',mensaje:'No existe ningun doctor con este nombre'})
       return {
         status:'Success',
@@ -63,7 +63,7 @@ export class DoctorsService {
     try{
       const {user} = await this.usersService.findByLastName(lastname)
       const usersId = user.map(u => u.id_user)
-      const doctors = await this.doctorRepository.find({where:{id_user:In(usersId)}})
+      const doctors = await this.doctorRepository.find({where:{id_user:In(usersId)},relations:['user']})
       if(doctors.length === 0 ) throw new NotFoundException({status:'Error',mensaje:'No existe ningun doctor con este apellido'})
       return {
         status:'Success',
@@ -79,7 +79,7 @@ export class DoctorsService {
     try{
       const {user} = await this.usersService.findByDocument(document)
       const usersId = user.map(u => u.id_user)
-      const doctors = await this.doctorRepository.find({where:{id_user:In(usersId)}})
+      const doctors = await this.doctorRepository.find({where:{id_user:In(usersId)}, relations:['user']})
       if(doctors.length === 0 ) throw new NotFoundException({status:'Error',mensaje:'No existe ningun doctor con este documento'})
       return {
         status:'Success',
