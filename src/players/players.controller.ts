@@ -10,10 +10,10 @@ import { ResponsePlayerDto } from './dto/response/response-player.dto';
 export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
-  @ApiOperation({ summary: 'Obtener todos los jugadores' })
+  @ApiOperation({ summary: 'Obtener todos los deportistas' })
   @ApiResponse({ 
     status: 200, 
-    description: 'Lista de jugadores obtenida exitosamente',
+    description: 'Lista de deportistas obtenida exitosamente',
     type: [ResponsePlayerDto],
   })
   @Get()
@@ -37,11 +37,11 @@ export class PlayersController {
     return this.playersService.findOneById(id_player)
   }
 
-  @ApiOperation({ summary: 'Buscar jugadores por nombre de usuario' })
+  @ApiOperation({ summary: 'Buscar deportistas por nombre de usuario' })
   @ApiQuery({ name: 'name', description: 'Nombre del usuario', example: 'Juan' })
   @ApiResponse({ 
     status: 200, 
-    description: 'Jugadores encontrados exitosamente',
+    description: 'deportistas encontrados exitosamente',
     type: [ResponsePlayerDto],
   })
   @Get('user/name')
@@ -49,11 +49,11 @@ export class PlayersController {
     return this.playersService.findByUserName(name)
   }
 
-  @ApiOperation({ summary: 'Buscar jugadores por apellido de usuario' })
+  @ApiOperation({ summary: 'Buscar deportistas por apellido de usuario' })
   @ApiQuery({ name: 'lastname', description: 'Apellido del usuario', example: 'Pérez' })
   @ApiResponse({ 
     status: 200, 
-    description: 'Jugadores encontrados exitosamente',
+    description: 'deportistas encontrados exitosamente',
     type: [ResponsePlayerDto],
   })
   @Get('user/lastname')

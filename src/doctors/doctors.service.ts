@@ -21,7 +21,7 @@ export class DoctorsService {
       if(doctors.length === 0 ) throw new NotFoundException({status:'Error',mensaje:'No hay doctores registrados'})
       return {
         status:'Success',
-        mensaje:'Consulta exitosa',
+        mensaje:'Asociados al area medica obtenidos con exito',
         doctor: plainToInstance(ResponseDoctorDto,doctors,{excludeExtraneousValues:true})
       }
     }catch(error){
@@ -35,7 +35,7 @@ export class DoctorsService {
       if(!doctor) throw new NotFoundException({status:'Error',mensaje:'No existe este doctor'})
       return {
         status:'Success',
-        mensaje:'Consulta exitosa',
+        mensaje:'Medico obtenido con exito',
         doctor: plainToInstance(ResponseDoctorDto,doctor,{excludeExtraneousValues:true})
       }
     }catch(error){
@@ -51,7 +51,7 @@ export class DoctorsService {
       if(doctors.length === 0 ) throw new NotFoundException({status:'Error',mensaje:'No existe ningun doctor con este nombre'})
       return {
         status:'Success',
-        mensaje:'Consulta exitosa',
+        mensaje:'Medico obtenido con exito',
         doctors: plainToInstance(ResponseDoctorDto,doctors,{excludeExtraneousValues:true})
       }
     }catch(error){
@@ -67,7 +67,7 @@ export class DoctorsService {
       if(doctors.length === 0 ) throw new NotFoundException({status:'Error',mensaje:'No existe ningun doctor con este apellido'})
       return {
         status:'Success',
-        mensaje:'Consulta exitosa',
+        mensaje:'Medico obtenido con exito',
         doctors: plainToInstance(ResponseDoctorDto,doctors,{excludeExtraneousValues:true})
       }
     }catch(error){
@@ -83,7 +83,7 @@ export class DoctorsService {
       if(doctors.length === 0 ) throw new NotFoundException({status:'Error',mensaje:'No existe ningun doctor con este documento'})
       return {
         status:'Success',
-        mensaje:'Consulta exitosa',
+        mensaje:'Medico obtenido con exito',
         doctors: plainToInstance(ResponseDoctorDto,doctors,{excludeExtraneousValues:true})
       }
     }catch(error){
@@ -100,7 +100,7 @@ export class DoctorsService {
       const doctor = await this.doctorRepository.save(createDoctorDto)
       return {
         status:'Success',
-        mensaje:'Doctor creado con exito',
+        mensaje:'Medico creado con exito',
         doctor: plainToInstance(ResponseDoctorDto,doctor)
       }
     }catch(error){
@@ -117,7 +117,7 @@ export class DoctorsService {
       await this.doctorRepository.save(doctor)
       return{
         status:'Success',
-        mensaje:'Doctor actualizado con exito',
+        mensaje:'Medico actualizado con exito',
         doctor: plainToInstance(ResponseDoctorDto,doctor)
       }
     }catch(error){
@@ -132,7 +132,7 @@ export class DoctorsService {
       const doctor = await this.doctorRepository.remove(existsDoctor)
       return{
         status:'Success',
-        mensaje:'Doctor eliminado con exito'
+        mensaje:'Medico eliminado con exito'
       }
     }catch(error){
       throw error
