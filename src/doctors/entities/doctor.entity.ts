@@ -1,5 +1,6 @@
+import { MedicalRecord } from "src/medical_records/entities/medical_record.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('doctors')
 export class Doctor {
@@ -9,7 +10,7 @@ export class Doctor {
     @Column({nullable:false})
     id_user:number
 
-    @OneToOne(() => User)
+    @OneToOne(() => User,{ onDelete:'CASCADE', onUpdate:'CASCADE'})
     @JoinColumn({name:'id_user'})
     user:User
 
@@ -36,4 +37,7 @@ export class Doctor {
 
     @UpdateDateColumn({type:'timestamptz'})
     updated_at:Date
+
+    @OneToMany(() => MedicalRecord, (medicalRecord) => medicalRecord.doctor)
+    medicalRecord:MedicalRecord[]
 }

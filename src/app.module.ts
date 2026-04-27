@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { PersonalInformationsModule } from './personal_informations/personal_informations.module';
 import { PlayersModule } from './players/players.module';
 import { DoctorsModule } from './doctors/doctors.module';
+import { MedicalRecordsModule } from './medical_records/medical_records.module';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { DoctorsModule } from './doctors/doctors.module';
       autoLoadEntities:true,
       synchronize:true
     })
-    ,RolesModule, UsersModule, PersonalInformationsModule, PlayersModule, DoctorsModule],
+    ,RolesModule, UsersModule, PersonalInformationsModule, PlayersModule, DoctorsModule, MedicalRecordsModule],
   controllers: [],
   providers: [],
 })

@@ -9,6 +9,7 @@ import {
   ApiGetPlayerById,
   ApiGetPlayerByName,
   ApiGetPlayerByLastName,
+  ApiGetPlayerByDocument,
   ApiCreatePlayer,
   ApiUpdatePlayer,
   ApiDeletePlayer
@@ -41,6 +42,12 @@ export class PlayersController {
   @Get('user/lastname')
   findByUserLastName(@Query('lastname') lastname:string){
     return this.playersService.findByUserLastName(lastname)
+  }
+
+  @ApiGetPlayerByDocument()
+  @Get('user/document')
+  findByUserDocument(@Query('document') document:string){
+    return this.playersService.findByUserDocument(document)
   }
 
   @ApiCreatePlayer()

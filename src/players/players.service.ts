@@ -77,6 +77,22 @@ export class PlayersService {
     }
   }
 
+  async findByUserDocument(document:string){
+    try{
+      const {user} = await this.usersService.findByDocument(document)
+      const usersId = user.map(u => u.id_user)
+      const players = await this.playerRepository.find({where:{id_user:In(usersId)},relations:['user']})
+      if(players.length === 0 ) throw new NotFoundException({status:'Error',mensaje:'No existe este deportista'})
+      return {
+        status:'Success',
+        mensaje:'Consulta exitosa',
+        player: plainToInstance(ResponsePlayerDto,players, {excludeExtraneousValues:true})
+      }
+    }catch(error){
+      throw error
+    }
+  }
+
   async create(createPlayerDto:CreatePlayerDto){
     try{
       const { id_user } =createPlayerDto

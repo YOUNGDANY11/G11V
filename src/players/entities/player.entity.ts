@@ -1,5 +1,6 @@
+import { MedicalRecord } from "src/medical_records/entities/medical_record.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('players')
 export class Player {
@@ -39,5 +40,8 @@ export class Player {
 
     @UpdateDateColumn({type:'timestamptz'})
     updated_at:Date
+
+    @OneToMany(() => MedicalRecord, (medicalRecord) => medicalRecord.player)
+    medicalRecord:MedicalRecord[]
 
 }

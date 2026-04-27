@@ -182,6 +182,52 @@ export function ApiGetPlayerByLastName() {
   );
 }
 
+export function ApiGetPlayerByDocument() {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Obtener deportistas por documento de usuario',
+      description: 'Busca deportistas por el documento del usuario asociado'
+    }),
+    ApiQuery({ name: 'document', description: 'Documento del usuario', example: '1234567890' }),
+    ApiResponse({
+      status: 200,
+      description: 'Deportistas encontrados exitosamente',
+      schema: {
+        example: {
+          status: 'Success',
+          mensaje: 'Consulta exitosa',
+          player: [
+            {
+              id_player: 1,
+              id_user: 1,
+              birth_date: '2005-05-15T00:00:00.000Z',
+              nationality: 'Colombiana',
+              foot: 'Derecho',
+              hand: 'Derecho',
+              main_position: 'Delantero',
+              discipline: 'Fútbol',
+              status: 'Activo',
+              user_name: 'Juan',
+              user_lastname: 'Pérez',
+              user_document: '1234567890'
+            }
+          ]
+        }
+      }
+    }),
+    ApiResponse({
+      status: 404,
+      description: 'No existe deportista con este documento',
+      schema: {
+        example: {
+          status: 'Error',
+          mensaje: 'No existe este deportista'
+        }
+      }
+    })
+  );
+}
+
 export function ApiCreatePlayer() {
   return applyDecorators(
     ApiOperation({
