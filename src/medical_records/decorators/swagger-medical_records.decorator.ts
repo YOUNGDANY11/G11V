@@ -1,6 +1,87 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiBody } from '@nestjs/swagger';
 
+const medicalRecordSchema = {
+  type: 'object',
+  properties: {
+    id_medical_record: {
+      type: 'number',
+      description: 'ID único del registro médico',
+      example: 1
+    },
+    id_doctor: {
+      type: 'number',
+      description: 'ID del doctor',
+      example: 1
+    },
+    id_player: {
+      type: 'number',
+      description: 'ID del deportista',
+      example: 1
+    },
+    date: {
+      type: 'string',
+      format: 'date-time',
+      description: 'Fecha del registro médico',
+      example: '2026-04-27T10:30:00.000Z'
+    },
+    heigth: {
+      type: 'number',
+      description: 'Estatura del deportista en cm',
+      example: 180
+    },
+    weigth: {
+      type: 'number',
+      description: 'Peso del deportista en kg',
+      example: 75
+    },
+    fat_percentage: {
+      type: 'number',
+      format: 'double',
+      description: 'Porcentaje de grasa corporal',
+      example: 15
+    },
+    muscle_mass: {
+      type: 'number',
+      format: 'double',
+      description: 'Masa muscular en kg',
+      example: 65
+    },
+    doctor_name: {
+      type: 'string',
+      description: 'Nombre del doctor',
+      example: 'Carlos'
+    },
+    doctor_lastname: {
+      type: 'string',
+      description: 'Apellido del doctor',
+      example: 'García'
+    },
+    player_name: {
+      type: 'string',
+      description: 'Nombre del deportista',
+      example: 'Juan'
+    },
+    player_lastname: {
+      type: 'string',
+      description: 'Apellido del deportista',
+      example: 'Pérez'
+    },
+    created_at: {
+      type: 'string',
+      format: 'date-time',
+      description: 'Fecha de creación',
+      example: '2026-04-20T08:00:00.000Z'
+    },
+    updated_at: {
+      type: 'string',
+      format: 'date-time',
+      description: 'Fecha de última actualización',
+      example: '2026-04-27T10:30:00.000Z'
+    }
+  }
+};
+
 export function ApiGetAllMedicalRecords() {
   return applyDecorators(
     ApiOperation({
@@ -11,27 +92,20 @@ export function ApiGetAllMedicalRecords() {
       status: 200,
       description: 'Lista de registros médicos obtenida exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          medical_records: [
-            {
-              id_medical_record: 1,
-              id_doctor: 1,
-              id_player: 1,
-              date: '2026-04-27T10:30:00.000Z',
-              heigth: 180,
-              weigth: 75,
-              fat_percentage: 15,
-              muscle_mass: 65,
-              doctor_name: 'Carlos',
-              doctor_lastname: 'García',
-              player_name: 'Juan',
-              player_lastname: 'Pérez',
-              created_at: '2026-04-20T08:00:00.000Z',
-              updated_at: '2026-04-27T10:30:00.000Z'
-            }
-          ]
+        type: 'object',
+        properties: {
+          status: {
+            type: 'string',
+            example: 'Success'
+          },
+          mensaje: {
+            type: 'string',
+            example: 'Consulta exitosa'
+          },
+          medical_records: {
+            type: 'array',
+            items: medicalRecordSchema
+          }
         }
       }
     }),
@@ -39,9 +113,10 @@ export function ApiGetAllMedicalRecords() {
       status: 404,
       description: 'No existen registros médicos',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existen registros medicos'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existen registros medicos' }
         }
       }
     })
@@ -59,25 +134,11 @@ export function ApiGetMedicalRecordById() {
       status: 200,
       description: 'Registro médico obtenido exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          medical_record: {
-            id_medical_record: 1,
-            id_doctor: 1,
-            id_player: 1,
-            date: '2026-04-27T10:30:00.000Z',
-            heigth: 180,
-            weigth: 75,
-            fat_percentage: 15,
-            muscle_mass: 65,
-            doctor_name: 'Carlos',
-            doctor_lastname: 'García',
-            player_name: 'Juan',
-            player_lastname: 'Pérez',
-            created_at: '2026-04-20T08:00:00.000Z',
-            updated_at: '2026-04-27T10:30:00.000Z'
-          }
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Consulta exitosa' },
+          medical_record: medicalRecordSchema
         }
       }
     }),
@@ -85,9 +146,10 @@ export function ApiGetMedicalRecordById() {
       status: 404,
       description: 'Registro médico no encontrado',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este registro medico'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe este registro medico' }
         }
       }
     })
@@ -105,27 +167,14 @@ export function ApiGetMedicalRecordByPlayerName() {
       status: 200,
       description: 'Registros médicos encontrados exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          medical_records: [
-            {
-              id_medical_record: 1,
-              id_doctor: 1,
-              id_player: 1,
-              date: '2026-04-27T10:30:00.000Z',
-              heigth: 180,
-              weigth: 75,
-              fat_percentage: 15,
-              muscle_mass: 65,
-              doctor_name: 'Carlos',
-              doctor_lastname: 'García',
-              player_name: 'Juan',
-              player_lastname: 'Pérez',
-              created_at: '2026-04-20T08:00:00.000Z',
-              updated_at: '2026-04-27T10:30:00.000Z'
-            }
-          ]
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Consulta exitosa' },
+          medical_records: {
+            type: 'array',
+            items: medicalRecordSchema
+          }
         }
       }
     }),
@@ -133,9 +182,10 @@ export function ApiGetMedicalRecordByPlayerName() {
       status: 404,
       description: 'No existe registro médico de este deportista',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe registro medico de este deportista'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe registro medico de este deportista' }
         }
       }
     })
@@ -153,27 +203,14 @@ export function ApiGetMedicalRecordByPlayerLastName() {
       status: 200,
       description: 'Registros médicos encontrados exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          medical_records: [
-            {
-              id_medical_record: 1,
-              id_doctor: 1,
-              id_player: 1,
-              date: '2026-04-27T10:30:00.000Z',
-              heigth: 180,
-              weigth: 75,
-              fat_percentage: 15,
-              muscle_mass: 65,
-              doctor_name: 'Carlos',
-              doctor_lastname: 'García',
-              player_name: 'Juan',
-              player_lastname: 'Pérez',
-              created_at: '2026-04-20T08:00:00.000Z',
-              updated_at: '2026-04-27T10:30:00.000Z'
-            }
-          ]
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Consulta exitosa' },
+          medical_records: {
+            type: 'array',
+            items: medicalRecordSchema
+          }
         }
       }
     }),
@@ -181,9 +218,10 @@ export function ApiGetMedicalRecordByPlayerLastName() {
       status: 404,
       description: 'No existe registro médico de este deportista',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe registro medico de este deportista'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe registro medico de este deportista' }
         }
       }
     })
@@ -201,27 +239,14 @@ export function ApiGetMedicalRecordByPlayerDocument() {
       status: 200,
       description: 'Registros médicos encontrados exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          medical_records: [
-            {
-              id_medical_record: 1,
-              id_doctor: 1,
-              id_player: 1,
-              date: '2026-04-27T10:30:00.000Z',
-              heigth: 180,
-              weigth: 75,
-              fat_percentage: 15,
-              muscle_mass: 65,
-              doctor_name: 'Carlos',
-              doctor_lastname: 'García',
-              player_name: 'Juan',
-              player_lastname: 'Pérez',
-              created_at: '2026-04-20T08:00:00.000Z',
-              updated_at: '2026-04-27T10:30:00.000Z'
-            }
-          ]
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Consulta exitosa' },
+          medical_records: {
+            type: 'array',
+            items: medicalRecordSchema
+          }
         }
       }
     }),
@@ -229,9 +254,10 @@ export function ApiGetMedicalRecordByPlayerDocument() {
       status: 404,
       description: 'No existe registro médico de este deportista',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe registro medico de este deportista'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe registro medico de este deportista' }
         }
       }
     })
@@ -249,27 +275,14 @@ export function ApiGetMedicalRecordByDoctorName() {
       status: 200,
       description: 'Registros médicos encontrados exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          medical_records: [
-            {
-              id_medical_record: 1,
-              id_doctor: 1,
-              id_player: 1,
-              date: '2026-04-27T10:30:00.000Z',
-              heigth: 180,
-              weigth: 75,
-              fat_percentage: 15,
-              muscle_mass: 65,
-              doctor_name: 'Carlos',
-              doctor_lastname: 'García',
-              player_name: 'Juan',
-              player_lastname: 'Pérez',
-              created_at: '2026-04-20T08:00:00.000Z',
-              updated_at: '2026-04-27T10:30:00.000Z'
-            }
-          ]
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Consulta exitosa' },
+          medical_records: {
+            type: 'array',
+            items: medicalRecordSchema
+          }
         }
       }
     }),
@@ -277,9 +290,10 @@ export function ApiGetMedicalRecordByDoctorName() {
       status: 404,
       description: 'No existe registro médico realizado por este doctor',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe registro medico realizado por este doctor'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe registro medico realizado por este doctor' }
         }
       }
     })
@@ -297,27 +311,14 @@ export function ApiGetMedicalRecordByDoctorLastName() {
       status: 200,
       description: 'Registros médicos encontrados exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          medical_records: [
-            {
-              id_medical_record: 1,
-              id_doctor: 1,
-              id_player: 1,
-              date: '2026-04-27T10:30:00.000Z',
-              heigth: 180,
-              weigth: 75,
-              fat_percentage: 15,
-              muscle_mass: 65,
-              doctor_name: 'Carlos',
-              doctor_lastname: 'García',
-              player_name: 'Juan',
-              player_lastname: 'Pérez',
-              created_at: '2026-04-20T08:00:00.000Z',
-              updated_at: '2026-04-27T10:30:00.000Z'
-            }
-          ]
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Consulta exitosa' },
+          medical_records: {
+            type: 'array',
+            items: medicalRecordSchema
+          }
         }
       }
     }),
@@ -325,9 +326,10 @@ export function ApiGetMedicalRecordByDoctorLastName() {
       status: 404,
       description: 'No existe registro médico realizado por este doctor',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe registro medico realizado por este doctor'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe registro medico realizado por este doctor' }
         }
       }
     })
@@ -345,27 +347,14 @@ export function ApiGetMedicalRecordByDoctorDocument() {
       status: 200,
       description: 'Registros médicos encontrados exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          medical_records: [
-            {
-              id_medical_record: 1,
-              id_doctor: 1,
-              id_player: 1,
-              date: '2026-04-27T10:30:00.000Z',
-              heigth: 180,
-              weigth: 75,
-              fat_percentage: 15,
-              muscle_mass: 65,
-              doctor_name: 'Carlos',
-              doctor_lastname: 'García',
-              player_name: 'Juan',
-              player_lastname: 'Pérez',
-              created_at: '2026-04-20T08:00:00.000Z',
-              updated_at: '2026-04-27T10:30:00.000Z'
-            }
-          ]
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Consulta exitosa' },
+          medical_records: {
+            type: 'array',
+            items: medicalRecordSchema
+          }
         }
       }
     }),
@@ -373,9 +362,10 @@ export function ApiGetMedicalRecordByDoctorDocument() {
       status: 404,
       description: 'No existe registro médico realizado por este doctor',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe registro medico realizado por este doctor'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe registro medico realizado por este doctor' }
         }
       }
     })
@@ -390,16 +380,47 @@ export function ApiCreateMedicalRecord() {
     }),
     ApiBody({
       description: 'Datos requeridos para crear un nuevo registro médico',
-      examples: {
-        example1: {
-          value: {
-            id_player: 1,
-            id_doctor: 1,
-            date: '2026-04-27T10:30:00.000Z',
-            heigth: 180,
-            weigth: 75,
-            fat_percentage: 15,
-            muscle_mass: 65
+      schema: {
+        type: 'object',
+        required: ['id_player', 'id_doctor', 'date', 'heigth', 'weigth', 'fat_percentage', 'muscle_mass'],
+        properties: {
+          id_player: {
+            type: 'number',
+            description: 'ID del deportista (requerido)',
+            example: 1
+          },
+          id_doctor: {
+            type: 'number',
+            description: 'ID del doctor (requerido)',
+            example: 1
+          },
+          date: {
+            type: 'string',
+            format: 'date-time',
+            description: 'Fecha del registro médico (requerido)',
+            example: '2026-04-27T10:30:00.000Z'
+          },
+          heigth: {
+            type: 'number',
+            description: 'Estatura del deportista en cm (requerido)',
+            example: 180
+          },
+          weigth: {
+            type: 'number',
+            description: 'Peso del deportista en kg (requerido)',
+            example: 75
+          },
+          fat_percentage: {
+            type: 'number',
+            format: 'double',
+            description: 'Porcentaje de grasa corporal (requerido, máx 2 decimales)',
+            example: 15.5
+          },
+          muscle_mass: {
+            type: 'number',
+            format: 'double',
+            description: 'Masa muscular en kg (requerido, máx 2 decimales)',
+            example: 65.25
           }
         }
       }
@@ -408,18 +429,22 @@ export function ApiCreateMedicalRecord() {
       status: 201,
       description: 'Registro médico creado exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Registro medico creado con exito',
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Registro medico creado con exito' },
           medical_record: {
-            id_medical_record: 1,
-            id_doctor: 1,
-            id_player: 1,
-            date: '2026-04-27T10:30:00.000Z',
-            heigth: 180,
-            weigth: 75,
-            fat_percentage: 15,
-            muscle_mass: 65
+            type: 'object',
+            properties: {
+              id_medical_record: { type: 'number', example: 1 },
+              id_doctor: { type: 'number', example: 1 },
+              id_player: { type: 'number', example: 1 },
+              date: { type: 'string', format: 'date-time', example: '2026-04-27T10:30:00.000Z' },
+              heigth: { type: 'number', example: 180 },
+              weigth: { type: 'number', example: 75 },
+              fat_percentage: { type: 'number', example: 15.5 },
+              muscle_mass: { type: 'number', example: 65.25 }
+            }
           }
         }
       }
@@ -428,9 +453,10 @@ export function ApiCreateMedicalRecord() {
       status: 400,
       description: 'Error en la creación - Deportista o doctor no existe',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este deportista'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe este deportista' }
         }
       }
     })
@@ -446,14 +472,36 @@ export function ApiUpdateMedicalRecord() {
     ApiParam({ name: 'id', description: 'ID del registro médico a actualizar', example: 1 }),
     ApiBody({
       description: 'Datos a actualizar del registro médico',
-      examples: {
-        example1: {
-          value: {
-            date: '2026-04-27T10:30:00.000Z',
-            heigth: 182,
-            weigth: 76,
-            fat_percentage: 14,
-            muscle_mass: 66
+      schema: {
+        type: 'object',
+        properties: {
+          date: {
+            type: 'string',
+            format: 'date-time',
+            description: 'Fecha del registro médico',
+            example: '2026-04-27T10:30:00.000Z'
+          },
+          heigth: {
+            type: 'number',
+            description: 'Estatura del deportista en cm',
+            example: 182
+          },
+          weigth: {
+            type: 'number',
+            description: 'Peso del deportista en kg',
+            example: 76
+          },
+          fat_percentage: {
+            type: 'number',
+            format: 'double',
+            description: 'Porcentaje de grasa corporal (máx 2 decimales)',
+            example: 14.2
+          },
+          muscle_mass: {
+            type: 'number',
+            format: 'double',
+            description: 'Masa muscular en kg (máx 2 decimales)',
+            example: 66.5
           }
         }
       }
@@ -462,19 +510,11 @@ export function ApiUpdateMedicalRecord() {
       status: 200,
       description: 'Registro médico actualizado exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Registro medico actualizado con exito',
-          medical_record: {
-            id_medical_record: 1,
-            id_doctor: 1,
-            id_player: 1,
-            date: '2026-04-27T10:30:00.000Z',
-            heigth: 182,
-            weigth: 76,
-            fat_percentage: 14,
-            muscle_mass: 66
-          }
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Registro medico actualizado con exito' },
+          medical_record: medicalRecordSchema
         }
       }
     }),
@@ -482,9 +522,10 @@ export function ApiUpdateMedicalRecord() {
       status: 404,
       description: 'Registro médico no encontrado',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este registro medico'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe este registro medico' }
         }
       }
     }),
@@ -492,9 +533,10 @@ export function ApiUpdateMedicalRecord() {
       status: 400,
       description: 'Error - Intento de cambiar ID de doctor o deportista',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No se puede cambiar el id del doctor'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No se puede cambiar el id del doctor' }
         }
       }
     })
@@ -512,9 +554,10 @@ export function ApiDeleteMedicalRecord() {
       status: 200,
       description: 'Registro médico eliminado exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Registro medico eliminado con exito'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Registro medico eliminado con exito' }
         }
       }
     }),
@@ -522,9 +565,10 @@ export function ApiDeleteMedicalRecord() {
       status: 404,
       description: 'Registro médico no encontrado',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este registro medico'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe este registro medico' }
         }
       }
     })

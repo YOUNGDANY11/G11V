@@ -1,5 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiBody, getSchemaPath } from '@nestjs/swagger';
 
 export function ApiGetAllPlayers() {
   return applyDecorators(
@@ -11,25 +11,85 @@ export function ApiGetAllPlayers() {
       status: 200,
       description: 'Lista de deportistas obtenida exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          players: [
-            {
-              id_player: 1,
-              id_user: 1,
-              birth_date: '2005-05-15T00:00:00.000Z',
-              nationality: 'Colombiana',
-              foot: 'Derecho',
-              hand: 'Derecho',
-              main_position: 'Delantero',
-              discipline: 'Fútbol',
-              status: 'Activo',
-              user_name: 'Juan',
-              user_lastname: 'Pérez',
-              user_document: '1234567'
+        type: 'object',
+        properties: {
+          status: {
+            type: 'string',
+            example: 'Success'
+          },
+          mensaje: {
+            type: 'string',
+            example: 'Consulta exitosa'
+          },
+          players: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id_player: {
+                  type: 'number',
+                  description: 'ID único del jugador',
+                  example: 1
+                },
+                id_user: {
+                  type: 'number',
+                  description: 'ID del usuario asociado',
+                  example: 1
+                },
+                birth_date: {
+                  type: 'string',
+                  format: 'date-time',
+                  description: 'Fecha de nacimiento del jugador',
+                  example: '2005-05-15T00:00:00.000Z'
+                },
+                nationality: {
+                  type: 'string',
+                  description: 'Nacionalidad del jugador',
+                  example: 'Colombiana'
+                },
+                foot: {
+                  type: 'string',
+                  description: 'Pie hábil para jugar',
+                  example: 'Derecho'
+                },
+                hand: {
+                  type: 'string',
+                  description: 'Mano hábil del jugador',
+                  example: 'Derecho'
+                },
+                main_position: {
+                  type: 'string',
+                  description: 'Posición principal de juego',
+                  example: 'Delantero'
+                },
+                discipline: {
+                  type: 'string',
+                  description: 'Disciplina del jugador',
+                  example: 'Fútbol'
+                },
+                status: {
+                  type: 'string',
+                  description: 'Estado del jugador',
+                  example: 'Activo'
+                },
+                user_name: {
+                  type: 'string',
+                  description: 'Nombre del usuario',
+                  example: 'Juan'
+                },
+                user_lastname: {
+                  type: 'string',
+                  description: 'Apellido del usuario',
+                  example: 'Pérez'
+                },
+                user_document: {
+                  type: 'string',
+                  description: 'Documento del usuario',
+                  example: '1234567'
+                }
+              }
             }
-          ]
+          }
         }
       }
     }),
@@ -37,9 +97,16 @@ export function ApiGetAllPlayers() {
       status: 404,
       description: 'No hay deportistas registrados',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No hay deportistas registrados'
+        type: 'object',
+        properties: {
+          status: {
+            type: 'string',
+            example: 'Error'
+          },
+          mensaje: {
+            type: 'string',
+            example: 'No hay deportistas registrados'
+          }
         }
       }
     })
@@ -57,22 +124,69 @@ export function ApiGetPlayerById() {
       status: 200,
       description: 'Deportista obtenido exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
+        type: 'object',
+        properties: {
+          status: {
+            type: 'string',
+            example: 'Success'
+          },
+          mensaje: {
+            type: 'string',
+            example: 'Consulta exitosa'
+          },
           player: {
-            id_player: 1,
-            id_user: 1,
-            birth_date: '2005-05-15T00:00:00.000Z',
-            nationality: 'Colombiana',
-            foot: 'Derecho',
-            hand: 'Derecho',
-            main_position: 'Delantero',
-            discipline: 'Fútbol',
-            status: 'Activo',
-            user_name: 'Juan',
-            user_lastname: 'Pérez',
-            user_document: '1234567'
+            type: 'object',
+            properties: {
+              id_player: {
+                type: 'number',
+                example: 1
+              },
+              id_user: {
+                type: 'number',
+                example: 1
+              },
+              birth_date: {
+                type: 'string',
+                format: 'date-time',
+                example: '2005-05-15T00:00:00.000Z'
+              },
+              nationality: {
+                type: 'string',
+                example: 'Colombiana'
+              },
+              foot: {
+                type: 'string',
+                example: 'Derecho'
+              },
+              hand: {
+                type: 'string',
+                example: 'Derecho'
+              },
+              main_position: {
+                type: 'string',
+                example: 'Delantero'
+              },
+              discipline: {
+                type: 'string',
+                example: 'Fútbol'
+              },
+              status: {
+                type: 'string',
+                example: 'Activo'
+              },
+              user_name: {
+                type: 'string',
+                example: 'Juan'
+              },
+              user_lastname: {
+                type: 'string',
+                example: 'Pérez'
+              },
+              user_document: {
+                type: 'string',
+                example: '1234567'
+              }
+            }
           }
         }
       }
@@ -81,9 +195,16 @@ export function ApiGetPlayerById() {
       status: 404,
       description: 'Deportista no encontrado',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este deportista'
+        type: 'object',
+        properties: {
+          status: {
+            type: 'string',
+            example: 'Error'
+          },
+          mensaje: {
+            type: 'string',
+            example: 'No existe este deportista'
+          }
         }
       }
     })
@@ -101,25 +222,36 @@ export function ApiGetPlayerByName() {
       status: 200,
       description: 'Deportistas encontrados exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          player: [
-            {
-              id_player: 1,
-              id_user: 1,
-              birth_date: '2005-05-15T00:00:00.000Z',
-              nationality: 'Colombiana',
-              foot: 'Derecho',
-              hand: 'Derecho',
-              main_position: 'Delantero',
-              discipline: 'Fútbol',
-              status: 'Activo',
-              user_name: 'Juan',
-              user_lastname: 'Pérez',
-              user_document: '1234567'
+        type: 'object',
+        properties: {
+          status: {
+            type: 'string',
+            example: 'Success'
+          },
+          mensaje: {
+            type: 'string',
+            example: 'Consulta exitosa'
+          },
+          player: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id_player: { type: 'number', example: 1 },
+                id_user: { type: 'number', example: 1 },
+                birth_date: { type: 'string', format: 'date-time', example: '2005-05-15T00:00:00.000Z' },
+                nationality: { type: 'string', example: 'Colombiana' },
+                foot: { type: 'string', example: 'Derecho' },
+                hand: { type: 'string', example: 'Derecho' },
+                main_position: { type: 'string', example: 'Delantero' },
+                discipline: { type: 'string', example: 'Fútbol' },
+                status: { type: 'string', example: 'Activo' },
+                user_name: { type: 'string', example: 'Juan' },
+                user_lastname: { type: 'string', example: 'Pérez' },
+                user_document: { type: 'string', example: '1234567' }
+              }
             }
-          ]
+          }
         }
       }
     }),
@@ -127,9 +259,10 @@ export function ApiGetPlayerByName() {
       status: 404,
       description: 'No existe deportista con este nombre',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este deportista'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe este deportista' }
         }
       }
     })
@@ -147,25 +280,30 @@ export function ApiGetPlayerByLastName() {
       status: 200,
       description: 'Deportistas encontrados exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          player: [
-            {
-              id_player: 1,
-              id_user: 1,
-              birth_date: '2005-05-15T00:00:00.000Z',
-              nationality: 'Colombiana',
-              foot: 'Derecho',
-              hand: 'Derecho',
-              main_position: 'Delantero',
-              discipline: 'Fútbol',
-              status: 'Activo',
-              user_name: 'Juan',
-              user_lastname: 'Pérez',
-              user_document: '1234567'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Consulta exitosa' },
+          player: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id_player: { type: 'number', example: 1 },
+                id_user: { type: 'number', example: 1 },
+                birth_date: { type: 'string', format: 'date-time', example: '2005-05-15T00:00:00.000Z' },
+                nationality: { type: 'string', example: 'Colombiana' },
+                foot: { type: 'string', example: 'Derecho' },
+                hand: { type: 'string', example: 'Derecho' },
+                main_position: { type: 'string', example: 'Delantero' },
+                discipline: { type: 'string', example: 'Fútbol' },
+                status: { type: 'string', example: 'Activo' },
+                user_name: { type: 'string', example: 'Juan' },
+                user_lastname: { type: 'string', example: 'Pérez' },
+                user_document: { type: 'string', example: '1234567' }
+              }
             }
-          ]
+          }
         }
       }
     }),
@@ -173,9 +311,10 @@ export function ApiGetPlayerByLastName() {
       status: 404,
       description: 'No existe deportista con este apellido',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este deportista'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe este deportista' }
         }
       }
     })
@@ -193,25 +332,30 @@ export function ApiGetPlayerByDocument() {
       status: 200,
       description: 'Deportistas encontrados exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Consulta exitosa',
-          player: [
-            {
-              id_player: 1,
-              id_user: 1,
-              birth_date: '2005-05-15T00:00:00.000Z',
-              nationality: 'Colombiana',
-              foot: 'Derecho',
-              hand: 'Derecho',
-              main_position: 'Delantero',
-              discipline: 'Fútbol',
-              status: 'Activo',
-              user_name: 'Juan',
-              user_lastname: 'Pérez',
-              user_document: '1234567890'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Consulta exitosa' },
+          player: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id_player: { type: 'number', example: 1 },
+                id_user: { type: 'number', example: 1 },
+                birth_date: { type: 'string', format: 'date-time', example: '2005-05-15T00:00:00.000Z' },
+                nationality: { type: 'string', example: 'Colombiana' },
+                foot: { type: 'string', example: 'Derecho' },
+                hand: { type: 'string', example: 'Derecho' },
+                main_position: { type: 'string', example: 'Delantero' },
+                discipline: { type: 'string', example: 'Fútbol' },
+                status: { type: 'string', example: 'Activo' },
+                user_name: { type: 'string', example: 'Juan' },
+                user_lastname: { type: 'string', example: 'Pérez' },
+                user_document: { type: 'string', example: '1234567890' }
+              }
             }
-          ]
+          }
         }
       }
     }),
@@ -219,9 +363,10 @@ export function ApiGetPlayerByDocument() {
       status: 404,
       description: 'No existe deportista con este documento',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este deportista'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe este deportista' }
         }
       }
     })
@@ -236,17 +381,52 @@ export function ApiCreatePlayer() {
     }),
     ApiBody({
       description: 'Datos requeridos para crear un nuevo deportista',
-      examples: {
-        example1: {
-          value: {
-            id_user: 1,
-            birth_date: '2005-05-15',
-            nationality: 'Colombiana',
-            foot: 'Derecho',
-            hand: 'Derecho',
-            main_position: 'Delantero',
-            discipline: 'Fútbol',
-            status: 'Activo'
+      schema: {
+        type: 'object',
+        required: ['id_user', 'birth_date', 'nationality', 'foot', 'hand', 'main_position', 'discipline', 'status'],
+        properties: {
+          id_user: {
+            type: 'number',
+            description: 'ID del usuario jugador',
+            example: 1
+          },
+          birth_date: {
+            type: 'string',
+            format: 'date-time',
+            description: 'Fecha de nacimiento del jugador',
+            example: '2005-05-15'
+          },
+          nationality: {
+            type: 'string',
+            description: 'Nacionalidad del jugador',
+            example: 'Colombiana'
+          },
+          foot: {
+            type: 'string',
+            description: 'Pie hábil para jugar (Derecho/Izquierdo)',
+            maxLength: 10,
+            example: 'Derecho'
+          },
+          hand: {
+            type: 'string',
+            description: 'Mano hábil del jugador (Derecho/Izquierdo)',
+            maxLength: 10,
+            example: 'Derecho'
+          },
+          main_position: {
+            type: 'string',
+            description: 'Posición principal de juego',
+            example: 'Delantero'
+          },
+          discipline: {
+            type: 'string',
+            description: 'Disciplina del jugador',
+            example: 'Fútbol'
+          },
+          status: {
+            type: 'string',
+            description: 'Estado del jugador',
+            example: 'Activo'
           }
         }
       }
@@ -255,22 +435,26 @@ export function ApiCreatePlayer() {
       status: 201,
       description: 'Deportista creado exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Deportista creado con exito',
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Deportista creado con exito' },
           player: {
-            id_player: 1,
-            id_user: 1,
-            birth_date: '2005-05-15T00:00:00.000Z',
-            nationality: 'Colombiana',
-            foot: 'Derecho',
-            hand: 'Derecho',
-            main_position: 'Delantero',
-            discipline: 'Fútbol',
-            status: 'Activo',
-            user_name: 'Juan',
-            user_lastname: 'Pérez',
-            user_document: '1234567'
+            type: 'object',
+            properties: {
+              id_player: { type: 'number', example: 1 },
+              id_user: { type: 'number', example: 1 },
+              birth_date: { type: 'string', format: 'date-time', example: '2005-05-15T00:00:00.000Z' },
+              nationality: { type: 'string', example: 'Colombiana' },
+              foot: { type: 'string', example: 'Derecho' },
+              hand: { type: 'string', example: 'Derecho' },
+              main_position: { type: 'string', example: 'Delantero' },
+              discipline: { type: 'string', example: 'Fútbol' },
+              status: { type: 'string', example: 'Activo' },
+              user_name: { type: 'string', example: 'Juan' },
+              user_lastname: { type: 'string', example: 'Pérez' },
+              user_document: { type: 'string', example: '1234567' }
+            }
           }
         }
       }
@@ -279,9 +463,10 @@ export function ApiCreatePlayer() {
       status: 400,
       description: 'Error en la creación - Usuario no existe o deportista ya existe',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'Este deportista ya esta registrado'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'Este deportista ya esta registrado' }
         }
       }
     })
@@ -297,17 +482,16 @@ export function ApiUpdatePlayer() {
     ApiParam({ name: 'id', description: 'ID del deportista a actualizar', example: 1 }),
     ApiBody({
       description: 'Datos a actualizar del deportista',
-      examples: {
-        example1: {
-          value: {
-            birth_date: '2005-05-15',
-            nationality: 'Colombiana',
-            foot: 'Izquierdo',
-            hand: 'Derecho',
-            main_position: 'Mediocampista',
-            discipline: 'Fútbol',
-            status: 'Activo'
-          }
+      schema: {
+        type: 'object',
+        properties: {
+          birth_date: { type: 'string', format: 'date-time', example: '2005-05-15' },
+          nationality: { type: 'string', example: 'Colombiana' },
+          foot: { type: 'string', example: 'Izquierdo' },
+          hand: { type: 'string', example: 'Derecho' },
+          main_position: { type: 'string', example: 'Mediocampista' },
+          discipline: { type: 'string', example: 'Fútbol' },
+          status: { type: 'string', example: 'Activo' }
         }
       }
     }),
@@ -315,22 +499,26 @@ export function ApiUpdatePlayer() {
       status: 200,
       description: 'Deportista actualizado exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Deportista actualizado con exito',
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Deportista actualizado con exito' },
           player: {
-            id_player: 1,
-            id_user: 1,
-            birth_date: '2005-05-15T00:00:00.000Z',
-            nationality: 'Colombiana',
-            foot: 'Izquierdo',
-            hand: 'Derecho',
-            main_position: 'Mediocampista',
-            discipline: 'Fútbol',
-            status: 'Activo',
-            user_name: 'Juan',
-            user_lastname: 'Pérez',
-            user_document: '1234567'
+            type: 'object',
+            properties: {
+              id_player: { type: 'number', example: 1 },
+              id_user: { type: 'number', example: 1 },
+              birth_date: { type: 'string', format: 'date-time', example: '2005-05-15T00:00:00.000Z' },
+              nationality: { type: 'string', example: 'Colombiana' },
+              foot: { type: 'string', example: 'Izquierdo' },
+              hand: { type: 'string', example: 'Derecho' },
+              main_position: { type: 'string', example: 'Mediocampista' },
+              discipline: { type: 'string', example: 'Fútbol' },
+              status: { type: 'string', example: 'Activo' },
+              user_name: { type: 'string', example: 'Juan' },
+              user_lastname: { type: 'string', example: 'Pérez' },
+              user_document: { type: 'string', example: '1234567' }
+            }
           }
         }
       }
@@ -339,9 +527,10 @@ export function ApiUpdatePlayer() {
       status: 404,
       description: 'Deportista no encontrado',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este deportista'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe este deportista' }
         }
       }
     }),
@@ -349,9 +538,10 @@ export function ApiUpdatePlayer() {
       status: 400,
       description: 'Error - Intento de cambiar ID de usuario',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No se puede cambiar el id del usuario'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No se puede cambiar el id del usuario' }
         }
       }
     })
@@ -369,9 +559,10 @@ export function ApiDeletePlayer() {
       status: 200,
       description: 'Deportista eliminado exitosamente',
       schema: {
-        example: {
-          status: 'Success',
-          mensaje: 'Deportista eliminado con exito'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Success' },
+          mensaje: { type: 'string', example: 'Deportista eliminado con exito' }
         }
       }
     }),
@@ -379,9 +570,10 @@ export function ApiDeletePlayer() {
       status: 404,
       description: 'Deportista no encontrado',
       schema: {
-        example: {
-          status: 'Error',
-          mensaje: 'No existe este deportista'
+        type: 'object',
+        properties: {
+          status: { type: 'string', example: 'Error' },
+          mensaje: { type: 'string', example: 'No existe este deportista' }
         }
       }
     })
