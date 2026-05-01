@@ -13,6 +13,11 @@ export class UsersService {
     private readonly rolesService:RolesService
   ){}
 
+  async findOneByDocument(document:string){
+    const user = await this.userRepository.findOneBy({document})
+    return user
+  }
+
   async findAll(){
     try{
       const users = await this.userRepository.find({relations:['role']})
