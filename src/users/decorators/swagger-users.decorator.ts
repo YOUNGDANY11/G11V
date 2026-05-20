@@ -9,7 +9,7 @@ export function ApiGetAllUsers() {
     }),
     ApiResponse({
       status: 200,
-      description: 'Lista de usuarios obtenida exitosamente',
+      description: 'Lista de usuarios obtenida exitosamentee',
       schema: {
         example: {
           status: 'Success',
